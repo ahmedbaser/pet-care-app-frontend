@@ -1,50 +1,78 @@
-// src/app/auth/login/page.tsx
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login } from '../../../redux/slices/authSlice';
+"use client";
+
+import React from 'react';
+import { useAppDispatch } from '../../redux/store';
 import { useRouter } from 'next/navigation';
+import { login } from '../../redux/slices/authSlice';
+import { Form, Input, Button, Typography } from 'antd';
+
+const { Title } = Typography;
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Simulate authentication logic (use real API in real project)
-    const user = {
-      email,
-      token: 'fake-jwt-token', // Replace with real JWT from your API
-    };
-    
-    dispatch(login(user));
-    router.push('/');
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    dispatch(login(values));
+    router.push('/'); 
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="email" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-          placeholder="Email" 
-          required 
-        />
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-          placeholder="Password" 
-          required 
-        />
-        <button type="submit">Login</button>
-      </form>
+    <div style={{ padding: '40px', maxWidth: '400px', margin: 'auto' }}>
+      <Title level={2} style={{ textAlign: 'center' }}>Login</Title>
+      <Form onFinish={handleSubmit}>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, type: 'email', message: 'Please enter a valid email!' }]}
+        >
+          <Input placeholder="Enter your email" />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Please enter your password!' }]}
+        >
+          <Input.Password placeholder="Enter your password" />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+            Login
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
 
 export default LoginPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

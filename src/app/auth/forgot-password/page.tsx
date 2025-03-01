@@ -1,35 +1,62 @@
+"use client";
+
 import React, { useState } from 'react';
-import { message } from 'antd';
-import { useDispatch } from 'react-redux';
-import { sendPasswordResetEmail } from '../api/auth'; // You will need to create this API
+import { message, Form, Input, Button, Typography } from 'antd';
+import api from '@/app/utils/api';
+import { useRouter } from 'next/navigation';
+
+
+
+const { Title } = Typography;
+
+type APIErrorResponse = {
+  response?: {
+    data?: {
+      message?: string;
+    }
+  }
+}
 
 const ForgotPassword: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (values: { email: string }) => {
+    const { email } = values;
+    setLoading(true); 
     try {
-      await sendPasswordResetEmail(email); // API call
-      message.success('Password reset email sent. Please check your inbox.');
+     const response =  await api.sendPasswordResetEmail(email);
+     const resetToken = response.resetToken;
+      message.success('Password reset email sent. Redirecting...');
+    
+      router.push(`/auth/reset-password?token=${resetToken}`); 
+
     } catch (error) {
-      message.error('Error sending password reset email.');
+      const err = error as APIErrorResponse;
+      const errorMessage = err.response?.data?.message || "Error sending password email.";
+      message.error(errorMessage);
+    } finally {
+      setLoading(false); 
     }
   };
 
   return (
-    <div className="forgot-password-form">
-      <h2>Forgot Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          required
-        />
-        <button type="submit">Send Reset Email</button>
-      </form>
+    <div style={{ padding: '40px', maxWidth: '400px', margin: 'auto' }}>
+      <Title level={2} style={{ textAlign: 'center' }}>Forgot Password</Title>
+      <Form onFinish={handleSubmit}>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, type: 'email', message: 'Please enter a valid email!' }]}
+        >
+          <Input placeholder="Enter your email" />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={loading}>
+            Send Reset Email
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
