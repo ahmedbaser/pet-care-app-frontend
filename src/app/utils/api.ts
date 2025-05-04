@@ -1,8 +1,16 @@
 import { ProfileData } from "../redux/slices/authSlice";
 import { UpdatePostPayload } from "../redux/slices/postSlice";
+import type { UserInfo, Pet } from '../AIModel/PetAdoptionMatch'; // adjust relative path as needed
+import { PetHealthData } from "../AIModel/PetHealthPrediction ";
+
+
+
+
+
 
 // Base API URL
-const API_URL = 'https://pet-care-tips-stories-backend.vercel.app/api'; 
+// const API_URL = 'https://pet-care-tips-stories-backend.vercel.app/api'; 
+const API_URL = 'http://localhost:5000/api'; 
 
 
 
@@ -28,6 +36,10 @@ interface PaymentStatusResponse {
   amount: number;
   currency: string;
 }
+
+
+
+
 
 
 // Register a new user
@@ -717,7 +729,7 @@ const filterPostsByCategory = async (categoryId: string) => {
   return response.json();
 };
 
-
+// AI Features API
 const sendMessageToChatbot = async(message: string) => {
   const response = await fetch(`${API_URL}/chatbot`, {
     method: 'POST',
@@ -747,6 +759,79 @@ const generatePetStory = async (petType: string, petName: string) => {
   }
   return response.json();
 }
+
+type Activity = {
+  date: string,
+  activityType: string,
+  details: string,
+}
+
+
+const PetActivityAnalytics = async (activities: Activity[], token: string) => {
+   const response = await fetch(`${API_URL}/pet-analytics`, {
+   method: 'POST',
+   headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+   },
+   body: JSON.stringify({activities}),
+   });
+   if(!response.ok) {
+    throw new Error('Failed to generate story')
+   }
+   
+   return response.json();
+   
+}
+
+
+
+const PetAdoptionMatch = async(user: UserInfo, pets: Pet[], token:string) => {
+   const response = await fetch(`${API_URL}/pet-adoption-match`, {
+     method: 'POST',
+     headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+     },
+     body: JSON.stringify({user, pets})
+   });
+   if(!response.ok) {
+    throw new Error('Failed to generate pet adoption match')
+   }
+   console.log('this is response PetAdoptionMatch:', response)
+   return response.json();
+}
+
+
+const PetHealthPrediction  = async (petDate: PetHealthData, token: string) => {
+     const response = await fetch(`${API_URL}/predictive-health-trends`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+         Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(petDate)
+     });
+
+     if(!response.ok) {
+      throw new Error('Failed to generate pet adoption match')
+     }
+     console.log('this is response PetAdoption Match', response);
+     return response.json();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -791,7 +876,10 @@ export default {
   fetchPaymentHistoryAPI,
   fetchPostByAuthorId,
   sendMessageToChatbot, 
-  generatePetStory
+  generatePetStory,
+  PetActivityAnalytics,
+  PetAdoptionMatch,
+  PetHealthPrediction  
 };
 
 

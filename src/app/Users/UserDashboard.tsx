@@ -10,6 +10,7 @@ import {
   TeamOutlined,
   AppstoreOutlined,
   HeartOutlined,
+  BarChartOutlined 
 } from '@ant-design/icons';
 import ProfilePage from '@/app/profile/page';
 import PostForm from '../components/PostForm';
@@ -22,6 +23,9 @@ import Title from 'antd/es/typography/Title';
 import UserPostList from '../components/UserPostList';
 import NewsFeed from '../newsFeed/page';
 import dynamic from 'next/dynamic';
+import ActivityAnalytics from '../components/ActivityAnalytics';
+import AdoptionMatching from '../components/AdoptionMatching';
+import HealthPrediction from '../components/HealthPrediction';
 
 
 
@@ -82,7 +86,13 @@ const UserDashboard: React.FC = () => {
           <PetNutritionCalculator />
           <Chatbot/>
           </>
-        );
+        )
+      case 'petActivity': 
+      return <ActivityAnalytics/>
+      case 'petAdoptionMatch': 
+      return <AdoptionMatching/>
+      case 'healthPrediction': 
+      return <HealthPrediction/>
       default:
         return <ProfilePage />;
     }
@@ -116,6 +126,15 @@ const UserDashboard: React.FC = () => {
       </Menu.Item>
       <Menu.Item key="petNutrition" icon={<HeartOutlined />}>
         Pet Nutrition
+      </Menu.Item>
+      <Menu.Item key="petActivity" icon={<BarChartOutlined />}>
+       Pet Activity Analytics
+      </Menu.Item>
+      <Menu.Item key="petAdoptionMatch" icon={<BarChartOutlined />}>
+       Pet Adoption Match
+      </Menu.Item>
+      <Menu.Item key="healthPrediction" icon={<BarChartOutlined />}>
+       Pet Health Prediction
       </Menu.Item>
     </Menu>
   );

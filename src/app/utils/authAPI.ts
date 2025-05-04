@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'https://pet-care-tips-stories-backend.vercel.app/api/auth'; 
+// const API_URL = 'https://pet-care-tips-stories-backend.vercel.app/api/auth'; 
+const API_URL = 'http://localhost:5000/api/auth'; 
 
 
 
