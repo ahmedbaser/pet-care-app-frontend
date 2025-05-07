@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PetHealthData } from '../AIModel/PetHealthPrediction '
+import { PetHealthData } from '../AIModel/PetHealthPrediction ';
 import api from '../utils/api';
 import { Button, Input, message, Space, Typography } from 'antd';
 
@@ -35,6 +35,9 @@ const HealthPrediction = () => {
 
 
    const [result, setResult] = useState<string | null>(null);
+   
+   const [customFields, setCustomFields] = useState<string[]>([])
+
 
    const handelChange = (field: keyof PetHealthData, value: string | number) => {
       setPetDate({...petDate, [field]: value})
@@ -48,6 +51,24 @@ const HealthPrediction = () => {
       }});
    }
 
+
+const addCustomField = () => {
+  const newFieldKey = prompt("Enter custom health field name");
+  if(newFieldKey && ! petDate.customInputs[newFieldKey]) {
+    setPetDate(prev => ({
+      ...prev,
+      customInputs: {
+        ...prev.customInputs,
+        [newFieldKey]: ""
+      }
+    }));
+    setCustomFields([...customFields, newFieldKey]);
+  } else {
+    message.warning('Invalid or duplicate field name')
+  }
+};
+
+
    const handelSubmit = async () => {
     try {
         const token = localStorage.getItem('token');
@@ -55,7 +76,7 @@ const HealthPrediction = () => {
             message.error('User is not authenticated');
             return;
         }
-        const response = api.PetHealthPrediction(petDate, token);
+        const response = await api.PetHealthPrediction(petDate, token);
         message.success('Pet health prediction generated successfully');
         setResult(response.data || 'No prediction data returned')
     } catch(error: any) {
@@ -90,7 +111,10 @@ const HealthPrediction = () => {
                 <Input placeholder='Blood Pressure' value={petDate.customInputs?.bloodPressure} onChange={e => handleCustomInputChange('bloodPressure', e.target.value)}/>
                 <Input placeholder='Heart Rate' value={petDate.customInputs?.heartRate} onChange={e => handleCustomInputChange('heartRate', e.target.value)}/>
                 <Input placeholder='Temperature' value={petDate.customInputs?.temperature} onChange={e => handleCustomInputChange('temperature', e.target.value)}/>
-                 
+                {customFields.map((field) => (
+                  <Input key={field} placeholder={field} value={petDate.customInputs?.[field]} onChange={e => handleCustomInputChange(field, e.target.value)}/>
+                ))}
+                <Button type='dashed' onClick={addCustomField}>+ Add Custom Field</Button>
                 <Button type='primary' onClick={handelSubmit}> Predict Health</Button>
               </Space>
 

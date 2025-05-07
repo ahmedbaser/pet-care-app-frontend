@@ -21,5 +21,5 @@ export interface PetHealthData {
     lastVetVisit: string;
     medications: string;
     spayedNeutered: string;
-    customInputs?: CustomInputs;
+    customInputs: CustomInputs;
 }
