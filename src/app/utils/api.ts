@@ -2,6 +2,7 @@ import { ProfileData } from "../redux/slices/authSlice";
 import { UpdatePostPayload } from "../redux/slices/postSlice";
 import type { UserInfo, Pet } from '../AIModel/PetAdoptionMatch'; // adjust relative path as needed
 import { PetHealthData } from "../AIModel/PetHealthPrediction ";
+import { PetCareRecommendationData } from "../AIModel/PetCareRecommendation ";
 
 
 
@@ -803,14 +804,14 @@ const PetAdoptionMatch = async(user: UserInfo, pets: Pet[], token:string) => {
 }
 
 
-const PetHealthPrediction  = async (petDate: PetHealthData, token: string) => {
+const PetHealthPrediction  = async (petData: PetHealthData, token: string) => {
      const response = await fetch(`${API_URL}/predictive-health-trends`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
          Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify(petDate)
+      body: JSON.stringify(petData)
      });
 
      if(!response.ok) {
@@ -820,6 +821,22 @@ const PetHealthPrediction  = async (petDate: PetHealthData, token: string) => {
      return response.json();
 }
 
+
+const RecommendationPetCare =  async(petData: PetCareRecommendationData, token: string) => {
+   const response = await fetch(`${API_URL}/petCare-Recommendation`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+       Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(petData)
+   });
+   if(!response.ok) {
+    throw new Error('Failed to generate pet care recommendation')
+   }
+   return response.json();
+
+}
 
 
 
@@ -879,7 +896,8 @@ export default {
   generatePetStory,
   PetActivityAnalytics,
   PetAdoptionMatch,
-  PetHealthPrediction  
+  PetHealthPrediction,
+  RecommendationPetCare  
 };
 
 

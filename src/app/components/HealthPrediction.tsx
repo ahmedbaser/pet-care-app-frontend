@@ -10,7 +10,7 @@ const Title = Typography;
 
 const HealthPrediction = () => {
 
-   const [petDate, setPetDate] = useState<PetHealthData>({
+   const [petData, setPetDate] = useState<PetHealthData>({
     petName: '',
     species: '',
     breed: '',
@@ -40,13 +40,13 @@ const HealthPrediction = () => {
 
 
    const handelChange = (field: keyof PetHealthData, value: string | number) => {
-      setPetDate({...petDate, [field]: value})
+      setPetDate({...petData, [field]: value})
    }
 
-   const  handleCustomInputChange = (field: keyof typeof petDate.customInputs, value: string) => {
-      setPetDate({...petDate, 
+   const  handleCustomInputChange = (field: keyof typeof petData.customInputs, value: string | number) => {
+      setPetDate({...petData, 
         customInputs: {
-        ...petDate.customInputs,
+        ...petData.customInputs,
         [field]: value
       }});
    }
@@ -54,7 +54,7 @@ const HealthPrediction = () => {
 
 const addCustomField = () => {
   const newFieldKey = prompt("Enter custom health field name");
-  if(newFieldKey && ! petDate.customInputs[newFieldKey]) {
+  if(newFieldKey && !petData.customInputs[newFieldKey]) {
     setPetDate(prev => ({
       ...prev,
       customInputs: {
@@ -76,7 +76,7 @@ const addCustomField = () => {
             message.error('User is not authenticated');
             return;
         }
-        const response = await api.PetHealthPrediction(petDate, token);
+        const response = await api.PetHealthPrediction(petData, token);
         message.success('Pet health prediction generated successfully');
         setResult(response.data || 'No prediction data returned')
     } catch(error: any) {
@@ -94,25 +94,25 @@ const addCustomField = () => {
 
             <div className='mb-6'>
               <Space direction='vertical' className='w-full'>
-                <Input placeholder='Name' value={petDate.petName} onChange={e => handelChange('petName', e.target.value)}/>
-                <Input placeholder='Species' value={petDate.species} onChange={e => handelChange('species', e.target.value)}/>
-                <Input placeholder='Breed' value={petDate.breed} onChange={e => handelChange('breed', e.target.value)}/>
-                <Input placeholder='Age' value={petDate.age} onChange={e => handelChange('age', e.target.value )}/>
-                <Input placeholder='weight' value={petDate.weight} onChange={e => handelChange('weight', e.target.value)}/>
-                <Input placeholder='gender' value={petDate.gender} onChange={e => handelChange('gender', e.target.value)}/>
-                <Input placeholder='Activity Level' value={petDate.activityLevel} onChange={e => handelChange('activityLevel', e.target.value)}/>
-                <Input placeholder='Diet' value={petDate.diet} onChange={e => handelChange('diet', e.target.value)}/>
-                <Input placeholder='Vaccination Status' value={petDate.vaccinationStatus} onChange={e => handelChange('vaccinationStatus', e.target.value)}/>
-                <Input placeholder='PastIllnesses' value={petDate.pastIllnesses} onChange={e => handelChange('pastIllnesses', e.target.value)}/>
-                <Input placeholder='Current Symptoms' value={petDate.currentSymptoms} onChange={e => handelChange('currentSymptoms', e.target.value)}/>
-                <Input placeholder='Last Vet Visit' value={petDate.lastVetVisit} onChange={e => handelChange('lastVetVisit', e.target.value)}/>
-                <Input placeholder='Medications' value={petDate.medications} onChange={e => handelChange('medications', e.target.value)}/>
-                <Input placeholder='Spayed Neutered' value={petDate.spayedNeutered} onChange={e => handelChange('spayedNeutered', e.target.value)}/>
-                <Input placeholder='Blood Pressure' value={petDate.customInputs?.bloodPressure} onChange={e => handleCustomInputChange('bloodPressure', e.target.value)}/>
-                <Input placeholder='Heart Rate' value={petDate.customInputs?.heartRate} onChange={e => handleCustomInputChange('heartRate', e.target.value)}/>
-                <Input placeholder='Temperature' value={petDate.customInputs?.temperature} onChange={e => handleCustomInputChange('temperature', e.target.value)}/>
+                <Input placeholder='Name' value={petData.petName} onChange={e => handelChange('petName', e.target.value)}/>
+                <Input placeholder='Species' value={petData.species} onChange={e => handelChange('species', e.target.value)}/>
+                <Input placeholder='Breed' value={petData.breed} onChange={e => handelChange('breed', e.target.value)}/>
+                <Input placeholder='Age' value={petData.age} onChange={e => handelChange('age', e.target.value )}/>
+                <Input placeholder='weight' value={petData.weight} onChange={e => handelChange('weight', e.target.value)}/>
+                <Input placeholder='gender' value={petData.gender} onChange={e => handelChange('gender', e.target.value)}/>
+                <Input placeholder='Activity Level' value={petData.activityLevel} onChange={e => handelChange('activityLevel', e.target.value)}/>
+                <Input placeholder='Diet' value={petData.diet} onChange={e => handelChange('diet', e.target.value)}/>
+                <Input placeholder='Vaccination Status' value={petData.vaccinationStatus} onChange={e => handelChange('vaccinationStatus', e.target.value)}/>
+                <Input placeholder='PastIllnesses' value={petData.pastIllnesses} onChange={e => handelChange('pastIllnesses', e.target.value)}/>
+                <Input placeholder='Current Symptoms' value={petData.currentSymptoms} onChange={e => handelChange('currentSymptoms', e.target.value)}/>
+                <Input placeholder='Last Vet Visit' value={petData.lastVetVisit} onChange={e => handelChange('lastVetVisit', e.target.value)}/>
+                <Input placeholder='Medications' value={petData.medications} onChange={e => handelChange('medications', e.target.value)}/>
+                <Input placeholder='Spayed Neutered' value={petData.spayedNeutered} onChange={e => handelChange('spayedNeutered', e.target.value)}/>
+                <Input placeholder='Blood Pressure' value={petData.customInputs?.bloodPressure} onChange={e => handleCustomInputChange('bloodPressure', e.target.value)}/>
+                <Input placeholder='Heart Rate' value={petData.customInputs?.heartRate} onChange={e => handleCustomInputChange('heartRate', e.target.value)}/>
+                <Input placeholder='Temperature' value={petData.customInputs?.temperature} onChange={e => handleCustomInputChange('temperature', e.target.value)}/>
                 {customFields.map((field) => (
-                  <Input key={field} placeholder={field} value={petDate.customInputs?.[field]} onChange={e => handleCustomInputChange(field, e.target.value)}/>
+                  <Input key={field} placeholder={field} value={petData.customInputs?.[field]} onChange={e => handleCustomInputChange(field, e.target.value)}/>
                 ))}
                 <Button type='dashed' onClick={addCustomField}>+ Add Custom Field</Button>
                 <Button type='primary' onClick={handelSubmit}> Predict Health</Button>
