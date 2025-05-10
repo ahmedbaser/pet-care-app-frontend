@@ -10,7 +10,11 @@ import {
   TeamOutlined,
   AppstoreOutlined,
   HeartOutlined,
-  BarChartOutlined 
+  BarChartOutlined, 
+  LineChartOutlined,
+  UserSwitchOutlined,
+  AlertOutlined,
+  BulbOutlined
 } from '@ant-design/icons';
 import ProfilePage from '@/app/profile/page';
 import PostForm from '../components/PostForm';
@@ -26,6 +30,9 @@ import dynamic from 'next/dynamic';
 import ActivityAnalytics from '../components/ActivityAnalytics';
 import AdoptionMatching from '../components/AdoptionMatching';
 import HealthPrediction from '../components/HealthPrediction';
+import PetCareRecommendation from '../components/PetCareRecommendation';
+import HealthAlerts from '../components/HealthAlerts';
+import BehavioralInsights from '../components/BehavioralInsights';
 
 
 
@@ -93,6 +100,12 @@ const UserDashboard: React.FC = () => {
       return <AdoptionMatching/>
       case 'healthPrediction': 
       return <HealthPrediction/>
+      case 'petCareRecommendation': 
+      return <PetCareRecommendation/>
+      case 'petHealthAlerts': 
+      return <HealthAlerts/>
+      case 'petBehavioralInsights': 
+      return <BehavioralInsights/>
       default:
         return <ProfilePage />;
     }
@@ -130,11 +143,20 @@ const UserDashboard: React.FC = () => {
       <Menu.Item key="petActivity" icon={<BarChartOutlined />}>
        Pet Activity Analytics
       </Menu.Item>
-      <Menu.Item key="petAdoptionMatch" icon={<BarChartOutlined />}>
+      <Menu.Item key="petAdoptionMatch" icon={<UserSwitchOutlined/>}>
        Pet Adoption Match
       </Menu.Item>
-      <Menu.Item key="healthPrediction" icon={<BarChartOutlined />}>
+      <Menu.Item key="healthPrediction" icon={<LineChartOutlined/>}>
        Pet Health Prediction
+      </Menu.Item>
+      <Menu.Item key="petCareRecommendation" icon={<HeartOutlined/>}>
+       Pet Care Recommendation
+      </Menu.Item>
+      <Menu.Item key="petHealthAlerts" icon={<AlertOutlined/>}>
+       Pet Health Alerts
+      </Menu.Item>
+      <Menu.Item key="petBehavioralInsights" icon={<BulbOutlined/>}>
+       Pet Behavioral Insights 
       </Menu.Item>
     </Menu>
   );

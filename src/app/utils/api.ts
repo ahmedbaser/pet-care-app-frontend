@@ -3,6 +3,8 @@ import { UpdatePostPayload } from "../redux/slices/postSlice";
 import type { UserInfo, Pet } from '../AIModel/PetAdoptionMatch'; // adjust relative path as needed
 import { PetHealthData } from "../AIModel/PetHealthPrediction ";
 import { PetCareRecommendationData } from "../AIModel/PetCareRecommendation ";
+import { PetHealthAlertsData } from "../AIModel/PetHealthAlerts";
+import { BehavioralInsightsData } from "../AIModel/PetBehavioralInsights";
 
 
 
@@ -839,6 +841,36 @@ const RecommendationPetCare =  async(petData: PetCareRecommendationData, token: 
 }
 
 
+const PetHealthAlerts = async(petData: PetHealthAlertsData, token: string) => {
+  const response = await fetch(`${API_URL}/pet-health-alert`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+       Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(petData)
+  });
+  if(!response.ok) {
+    throw new Error('Failed to generate pet health alert')
+  }
+  return response.json();
+}
+
+
+const PetBehavioralInsights = async(petData: BehavioralInsightsData, token: string) => {
+  const response = await fetch(`${API_URL}/behavior-insights`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(petData)
+  });
+  if(!response.ok) {
+    throw new Error('Failed to generate pet behavioral insight')
+  }  
+  return response.json();
+} 
 
 
 
@@ -897,7 +929,9 @@ export default {
   PetActivityAnalytics,
   PetAdoptionMatch,
   PetHealthPrediction,
-  RecommendationPetCare  
+  RecommendationPetCare ,
+  PetHealthAlerts,
+  PetBehavioralInsights 
 };
 
 

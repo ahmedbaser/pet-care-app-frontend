@@ -126,12 +126,9 @@ const addCustomField = () => {
                 </div>
               )}
             </div>
-
-
-
         </div>
     </div>
   )
 }
 
-export default HealthPrediction
+export default HealthPrediction;
