@@ -204,8 +204,12 @@ const postSlice = createSlice({
 
     builder.addCase(createPost.fulfilled, (state, action) => {
      state.posts.push(action.payload);
-     
-    });
+    })
+    .addCase(createPost.rejected, (state, action) => {
+      state.error = action.payload as string | null;
+      console.log('this is cerate post section error:', state.error)
+    })
+    
 
     builder.addCase(updatePost.fulfilled, (state, action) => {
       console.log('this is postSlice updatePost:', action.payload)

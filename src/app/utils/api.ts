@@ -143,21 +143,53 @@ const updateProfile = async (endpoint: string, data: ProfileData, token: string)
 
 
 // create user profile
-const createPost = async (post: Post, token:string) => {
+// const createPost = async (post: Post, token:string) => {
+//   const response = await fetch(`${API_URL}/posts`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': `Bearer ${token}`, 
+//     },
+//     body: JSON.stringify(post),
+//   });
+//   if (!response.ok) {
+//     throw new Error('Failed to create post');
+//   }
+//   const data = response.json();
+//   return data;
+// };
+
+
+
+const createPost = async (post: Post, token: string) => {
   const response = await fetch(`${API_URL}/posts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`, 
+      'Authorization': `Bearer ${token}`,
     },
     body: JSON.stringify(post),
   });
+
   if (!response.ok) {
-    throw new Error('Failed to create post');
+    let errorMessage = 'Failed to create post';
+    try {
+      const errorData = await response.json();
+      if (errorData && errorData.message) {
+        errorMessage = errorData.message;
+      }
+    } catch (parseError) {
+      console.error('Error parsing error response:', parseError);
+      // Use the default errorMessage if parsing fails
+    }
+    throw new Error(errorMessage);
   }
-  const data = response.json();
+  const data = await response.json();
+  console.log('this is ceratePost section api response:', data);
   return data;
 };
+
+
 
 
 // fetch all posts

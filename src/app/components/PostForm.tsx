@@ -31,7 +31,9 @@ interface PostFormProps {
 const PostForm: React.FC<PostFormProps> = ({ post }) => {
   const dispatch = useDispatch<AppDispatch>();
   const token = useSelector((state: RootState) => state.auth.token);
-
+  const [form] = Form.useForm();
+  const [moderationError, setModerationError] = useState<string | null>(null);
+  
   const [formData, setFormData] = useState({
     title: post?.title || '',
     content: post?.content || '',
@@ -46,17 +48,28 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setModerationError(null);
   };
+  
+
+  // added new here 
+  const handleQuillChange = (content: string) => {
+    setFormData({...formData, content});
+    setModerationError(null);
+  }
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       isPremium: e.target.checked,
     });
+   setModerationError(null);
+
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setModerationError(null);
     console.log("Form data submitted:", formData);
   
     if (!token) {
@@ -72,35 +85,50 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
       token: formData.token,
       isPremium: formData.isPremium,
     };
-  
-    if (post) {
-      try {
-        await dispatch(fetchPosts()); // Ensure latest posts are fetched before updating
-        await dispatch(updatePost({ id: post._id, ...postData }));
-        message.success('Post updated successfully!');
-      } catch (error) {
-        console.error("Failed to update post:", error);
-        message.error("Failed to update post.");
+
+
+    try {
+      let actionResult;
+      if(post) {
+        await dispatch(fetchPosts());
+        actionResult = await dispatch(updatePost({id: post._id, ...postData}))
+      } else {
+        actionResult = await dispatch(createPost({post: postData}))
       }
-    } else {
-      dispatch(createPost({ post: postData }));
-      message.success('Post created successfully!');
+      if(actionResult?.payload?.message?.startWith('Updated content violates community guidelines')) {
+        setModerationError(actionResult.payload.message);
+
+      } else if(actionResult.meta.requestStatus === 'fulfilled') {
+        message.success(post ? 'Post updated successfully!' : 'Post created successfully');
+        form.resetFields();
+        setFormData({
+          title: '',
+          content: '',
+          category: '',
+          token: '',
+          imageUrl: '',
+          isPremium: false,
+        });
+      } else if(actionResult.meta.requestStatus === 'rejected') {
+        message.error(actionResult.error.message || 'Failed to perform action.');
+      }
+    } catch(error) {
+      console.error("An unexpected error occurred:", error)
+      message.error("An unexpected error occurred.");
     }
-  };
+
+ };
   
   const handleUploadSuccess = (imageUrl: string) => {
     setFormData((prevData) => ({ ...prevData, imageUrl }));
+    setModerationError(null);
   };
 
   const handlePreview = () => {
-
-
     console.log(formData.imageUrl); 
     console.log(formData.content)
 
- 
-
-    Modal.info({
+ Modal.info({
       title: 'Post Preview',
       content: (
         <div>
@@ -148,7 +176,8 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
         <Form.Item label="Post Content" required className="mb-4">
           <ReactQuill
             value={formData.content}
-            onChange={(content) => setFormData({ ...formData, content })}
+            // onChange={(content) => setFormData({ ...formData, content })}
+            onChange={handleQuillChange}
             placeholder="Enter post content"
             modules={{
               toolbar: [
@@ -196,6 +225,11 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
 
         <ImageUploadComponent onUploadSuccess={handleUploadSuccess} />
 
+        
+        {moderationError && (
+          <div className='text-red-500 mb-4'>{moderationError}</div>
+        )}
+
         <Form.Item className="mt-4 flex space-x-4">
           <Button
             onClick={handlePreview}
@@ -216,27 +250,6 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
 };
 
 export default PostForm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

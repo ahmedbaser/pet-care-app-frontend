@@ -80,23 +80,23 @@ const BehavioralInsights = () => {
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-blue-100'>
-    <div className='w-full max-x-xl p-8 bg-white rounded-lg shadow-md'>
+     <div className='w-full max-w-xl p-8 bg-white rounded-lg shadow-md'>
        <Title level={2} className='text-center text-gray-700 mb-6'>
           Behavioral Insight & Tips
        </Title>
       <div className='mb-6'>
        <Space direction='vertical' className='w-full'>
-         <Input placeholder='Pet Type' value={petData.petType} onChange={e => handleChange('petType', e.target.value)}/>
-         <Input placeholder='Pet Age' value={petData.petAge} onChange={e => handleChange('petAge', e.target.value)}/>
-         <TextArea rows={2} placeholder='Behavior Issue' value={petData.behaviorIssue} onChange={e => handleChange('behaviorIssue', e.target.value)}/>
-         <TextArea rows={2} placeholder='Training History' value={petData.trainingHistory} onChange={e => handleChange('trainingHistory', e.target.value)}/>
-         <Select placeholder="Activity Level" value={petData.activityLevel} onChange={(value) => handleChange('activityLevel', value)} 
-          options={activityLevelOptions}/> 
-          {customField.map((field) => (
-           <Input key={field} placeholder={field} value={petData.customInputs?.[field]} onChange={e => handleCustomInputsChange(field, e.target.value)}/>
-          ))}
-          <Button type='dashed' onClick={addCustomField}>+ Add Custom Field</Button>
-          <Button type='primary' onClick={handleSubmit}>Behavioral Insight</Button>
+           <Input placeholder='Pet Type' value={petData.petType} onChange={e => handleChange('petType', e.target.value)}/>
+           <Input placeholder='Pet Age' value={petData.petAge} onChange={e => handleChange('petAge', e.target.value)}/>
+           <TextArea rows={2} placeholder='Behavior Issue' value={petData.behaviorIssue} onChange={e => handleChange('behaviorIssue', e.target.value)}/>
+           <TextArea rows={2} placeholder='Training History' value={petData.trainingHistory} onChange={e => handleChange('trainingHistory', e.target.value)}/>
+           <Select className='w-full' placeholder="Activity Level" value={petData.activityLevel} onChange={(value) => handleChange('activityLevel', value)} 
+            options={activityLevelOptions}/> 
+            {customField.map((field) => (
+             <Input key={field} placeholder={field} value={petData.customInputs?.[field]} onChange={e => handleCustomInputsChange(field, e.target.value)}/>
+            ))}
+            <Button type='dashed' onClick={addCustomField}>+ Add Custom Field</Button>
+            <Button type='primary' onClick={handleSubmit}>Behavioral Insight</Button>
        </Space>
 
        {result && (
