@@ -5,7 +5,7 @@ import api from '../utils/api'
 
 
 
-const Title = Typography;
+const {Title} = Typography;
 const {TextArea} = Input;
 
 
@@ -70,12 +70,14 @@ const BehavioralInsights = () => {
         }
         const response = await api.PetBehavioralInsights(petData, token);
         setResult(response.suggestion || 'No behavioral insight returned')
-      } catch (error: any) {
-        message.error(error.message || 'Failed to generate behavioral insights')
+      } catch (error) {
+         if(error instanceof Error) {
+          message.error(error.message)
+         } else {
+          message.error('Failed to generate behavioral insights')
+         }
       }
     }
-
-    // userId, petType, petAge, behaviorIssue, trainingHistory, activityLevel, customInputs
 
 
   return (

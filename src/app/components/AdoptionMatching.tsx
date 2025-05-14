@@ -5,7 +5,7 @@ import api from '../utils/api';
 
 
 
-const Title = Typography;
+const {Title} = Typography;
 const { TextArea } = Input;
 
 
@@ -34,7 +34,7 @@ const AdoptionMatching = () => {
 
   const handelPetChange = (index: number, field: keyof Pet, value: string) => {
     const updated = [...pets];
-    // updated[index][field] = value;
+    
     updated[index] = {...updated[index],[field]: value};
     setPet(updated);
   }
@@ -62,11 +62,17 @@ const handleSubmit = async () => {
     message.success('Adoption match generated successfully');
     setResult(response.data?.suggestion || 'No match data returned');
 
-  } catch(error: any) {
-    message.error(error.message || 'Failed to generate adoption match');
+  } catch(error) {
+    if(error instanceof Error) {
+        message.error(error.message)
+    }  else {
+      message.error('Failed to generate adoption match')
+    }
     setResult(null);
   }
-};
+ 
+ };
+ 
   
  return (
     <div className='flex items-center justify-center min-h-screen bg-blue-50'>

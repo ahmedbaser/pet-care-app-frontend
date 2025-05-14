@@ -73,8 +73,12 @@ const ActivityAnalytics = () => {
       const response = await api.PetActivityAnalytics(activities, token);
       message.success('Analytics generated successfully!');
       setInsights(response.data.insights);
-    } catch (error: any) {
-      message.error(error.message || 'Failed to generate analytics');
+    } catch (error) {
+      if(error instanceof Error) {
+        message.error(error.message)
+      } else {
+       message.error('Failed to generate analytics');
+      }
       setInsights(null);
     }
   };

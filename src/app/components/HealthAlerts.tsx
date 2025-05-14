@@ -5,10 +5,8 @@ import api from '../utils/api'
 
 
 
-const Title = Typography;
+const {Title} = Typography;
 const {TextArea} = Input;
-
-
 
 
 const HealthAlerts = () => {
@@ -64,13 +62,17 @@ const HealthAlerts = () => {
             const response = await api.PetHealthAlerts(petData, token);
             message.success('Pet health alert generated successfully');
             setResult(response.suggestion || 'No alert date returned') 
-        } catch(error: any) {
-            message.error(error.message || 'Failed to generate health alert')
+        } catch(error) {
+          if(error instanceof Error) {
+            message.error(error.message)
+          } else {
+            message.error('Failed to generate health alert')
+          }
         }
     } 
 
 return (
-    <div className='flex items-center justify-center min-h-screen bg-blue-100'>
+     <div className='flex items-center justify-center min-h-screen bg-blue-100'>
         <div className='w-full max-w-xl p-8 bg-white rounded-lg shadow-md'>
          <Title level={2} className="text-center text-gray-700 mb-6">
             Pet Health Alerts
@@ -104,4 +106,4 @@ return (
      )
 }
 
-export default HealthAlerts
+export default HealthAlerts;

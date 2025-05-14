@@ -27,7 +27,8 @@ const PetCareRecommendation = () => {
       location: '',
       customInputs: {},
  })
-  
+
+  //  PetImageRecognition 
   const [customFields, setCustomFields] = useState<string[]>([])
   const [result, setResult] = useState<string | null>(null);
 
@@ -70,8 +71,12 @@ const PetCareRecommendation = () => {
        const response = await api.RecommendationPetCare(petData, token);
        message.success('Pet care recommendation generate successfully');
        setResult(response.suggestion || 'No pet care recommendation returned') 
-    } catch (error: any) {
-        message.error(error.message || 'Failed to generate pet care recommendation')
+    } catch (error) {
+      if(error instanceof Error) {
+        message.error(error.message)
+      } else {
+        message.error('Failed to generate pet care recommendation')
+     }
     }
   }
 

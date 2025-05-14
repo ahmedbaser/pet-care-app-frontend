@@ -33,6 +33,7 @@ import HealthPrediction from '../components/HealthPrediction';
 import PetCareRecommendation from '../components/PetCareRecommendation';
 import HealthAlerts from '../components/HealthAlerts';
 import BehavioralInsights from '../components/BehavioralInsights';
+import ImageRecognition from '../components/ImageRecognition';
 
 
 
@@ -106,6 +107,8 @@ const UserDashboard: React.FC = () => {
       return <HealthAlerts/>
       case 'petBehavioralInsights': 
       return <BehavioralInsights/>
+      case 'petImageRecognition': 
+      return <ImageRecognition/>
       default:
         return <ProfilePage />;
     }
@@ -157,6 +160,9 @@ const UserDashboard: React.FC = () => {
       </Menu.Item>
       <Menu.Item key="petBehavioralInsights" icon={<BulbOutlined/>}>
        Pet Behavioral Insights 
+      </Menu.Item>
+      <Menu.Item key="petImageRecognition" icon={<BulbOutlined/>}>
+       Pet Image Recognition 
       </Menu.Item>
     </Menu>
   );

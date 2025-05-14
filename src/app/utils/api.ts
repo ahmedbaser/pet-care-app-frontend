@@ -11,6 +11,7 @@ import { BehavioralInsightsData } from "../AIModel/PetBehavioralInsights";
 
 
 
+
 // Base API URL
 // const API_URL = 'https://pet-care-tips-stories-backend.vercel.app/api'; 
 const API_URL = 'http://localhost:5000/api'; 
@@ -904,7 +905,38 @@ const PetBehavioralInsights = async(petData: BehavioralInsightsData, token: stri
   return response.json();
 } 
 
+// const uploadImage = async (formData: FormData) => {
+//   const response = await fetch(`${API_URL}/upload/image`, {
+//     method: 'POST',
+//     body: formData,
+//   });
 
+//   if (!response.ok) {
+//     throw new Error('Failed to upload image');
+//   }
+//   return response.json();
+// };
+
+
+const analyzeSymptomImage = async (formData: FormData, token: string) => {
+  const response = await fetch(`${API_URL}/image-recognition`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to analyze image');
+  }
+
+  const data = await response.json(); 
+  console.log('this is analyzeSymptomImage data:', data)
+  return data;
+};
 
 
 
@@ -963,7 +995,8 @@ export default {
   PetHealthPrediction,
   RecommendationPetCare ,
   PetHealthAlerts,
-  PetBehavioralInsights 
+  PetBehavioralInsights ,
+  analyzeSymptomImage
 };
 
 

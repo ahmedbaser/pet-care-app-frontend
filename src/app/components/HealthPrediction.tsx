@@ -5,7 +5,7 @@ import { Button, Input, message, Space, Typography } from 'antd';
 
 
 
-const Title = Typography;
+const {Title} = Typography;
 
 
 const HealthPrediction = () => {
@@ -79,9 +79,13 @@ const addCustomField = () => {
         const response = await api.PetHealthPrediction(petData, token);
         message.success('Pet health prediction generated successfully');
         setResult(response.data || 'No prediction data returned')
-    } catch(error: any) {
-        message.error(error.message || 'Failed to generate health prediction');
-        setResult(null);
+    } catch(error) {
+      if(error instanceof Error) {
+        message.error(error.message);
+      } else {
+        message.error('Failed to generate health prediction')
+      }  
+      setResult(null); 
     }
    }
 
