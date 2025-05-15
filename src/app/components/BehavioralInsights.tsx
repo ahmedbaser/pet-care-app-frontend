@@ -81,7 +81,7 @@ const BehavioralInsights = () => {
 
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-blue-100'>
+    <div className='flex items-center justify-center min-h-screen bg-green-100'>
      <div className='w-full max-w-xl p-8 bg-white rounded-lg shadow-md'>
        <Title level={2} className='text-center text-gray-700 mb-6'>
           Behavioral Insight & Tips
@@ -104,7 +104,7 @@ const BehavioralInsights = () => {
        {result && (
         <div className='bg-gray-100 p-4 mt-6 rounded-sm shadow-inner'>
             <h3>Behavioral Insight</h3>
-            <div className='whitespace-pre-wrap text-sm' dangerouslySetInnerHTML={{__html: result.replace(/\n/g, '<br/>')}}>
+            <div className='whitespace-pre-wrap text-sm' dangerouslySetInnerHTML={{__html: result.replace(/\n/g, '<br/>'),}}>
             </div>
         </div>
        )}

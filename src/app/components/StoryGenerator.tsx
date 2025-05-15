@@ -35,7 +35,7 @@ const StoryGenerator: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
+    <div className="flex items-center justify-center min-h-screen bg-green-100 p-6">
       <Card className="w-full max-w-3xl shadow-lg rounded-lg p-8 bg-white">
         <h2 className="text-2xl font-semibold mb-6 text-center">AI-Powered Pet Story Generator</h2>
         

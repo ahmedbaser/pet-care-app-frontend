@@ -905,18 +905,6 @@ const PetBehavioralInsights = async(petData: BehavioralInsightsData, token: stri
   return response.json();
 } 
 
-// const uploadImage = async (formData: FormData) => {
-//   const response = await fetch(`${API_URL}/upload/image`, {
-//     method: 'POST',
-//     body: formData,
-//   });
-
-//   if (!response.ok) {
-//     throw new Error('Failed to upload image');
-//   }
-//   return response.json();
-// };
-
 
 const analyzeSymptomImage = async (formData: FormData, token: string) => {
   const response = await fetch(`${API_URL}/image-recognition`, {

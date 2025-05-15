@@ -14,7 +14,8 @@ import {
   LineChartOutlined,
   UserSwitchOutlined,
   AlertOutlined,
-  BulbOutlined
+  BulbOutlined,
+  SmileOutlined
 } from '@ant-design/icons';
 import ProfilePage from '@/app/profile/page';
 import PostForm from '../components/PostForm';
@@ -34,6 +35,8 @@ import PetCareRecommendation from '../components/PetCareRecommendation';
 import HealthAlerts from '../components/HealthAlerts';
 import BehavioralInsights from '../components/BehavioralInsights';
 import ImageRecognition from '../components/ImageRecognition';
+import { FaCamera } from 'react-icons/fa';
+import StoryGenerator from '../components/StoryGenerator';
 
 
 
@@ -109,6 +112,8 @@ const UserDashboard: React.FC = () => {
       return <BehavioralInsights/>
       case 'petImageRecognition': 
       return <ImageRecognition/>
+      case 'petStroyGenerate': 
+      return <StoryGenerator/>
       default:
         return <ProfilePage />;
     }
@@ -143,6 +148,9 @@ const UserDashboard: React.FC = () => {
       <Menu.Item key="petNutrition" icon={<HeartOutlined />}>
         Pet Nutrition
       </Menu.Item>
+      <Menu.Item key="petStroyGenerate" icon={<SmileOutlined/>}>
+        Pet Stroy Generator
+      </Menu.Item>
       <Menu.Item key="petActivity" icon={<BarChartOutlined />}>
        Pet Activity Analytics
       </Menu.Item>
@@ -161,7 +169,7 @@ const UserDashboard: React.FC = () => {
       <Menu.Item key="petBehavioralInsights" icon={<BulbOutlined/>}>
        Pet Behavioral Insights 
       </Menu.Item>
-      <Menu.Item key="petImageRecognition" icon={<BulbOutlined/>}>
+      <Menu.Item key="petImageRecognition" icon={<FaCamera/>}>
        Pet Image Recognition 
       </Menu.Item>
     </Menu>

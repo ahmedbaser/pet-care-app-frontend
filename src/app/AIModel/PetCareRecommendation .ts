@@ -5,6 +5,7 @@ interface CustomInputs {
 
 export interface PetCareRecommendationData {
   petType: string;
+  petAge: number;
   petHealthConcerns: string;
   petDietPreferences: string;
   activityLevel: string;

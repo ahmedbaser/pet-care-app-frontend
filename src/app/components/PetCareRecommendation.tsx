@@ -6,7 +6,7 @@ import api from '../utils/api'
 
 
 
-const Title = Typography;
+const {Title} = Typography;
 const { TextArea } = Input;
 
 const activityLevelOptions = [
@@ -20,6 +20,7 @@ const PetCareRecommendation = () => {
     
    const[petData, setPetDate] = useState<PetCareRecommendationData>({
       petType: '',
+      petAge: 0,
       petHealthConcerns: '',
       petDietPreferences: '',
       activityLevel: '',
@@ -83,14 +84,15 @@ const PetCareRecommendation = () => {
 
   return (
 
-    <div className='flex items-center justify-center min-h-screen bg-blue-50'>
+    <div className='flex items-center justify-center min-h-screen bg-green-100'>
       <div className='w-full max-w-xl p-8 bg-white rounded-lg shadow-md'>
-        <Title className='text-center text-gray-700 mb-6'>
+        <Title level={2} className='text-center text-gray-700 mb-6'>
             Pet Care Recommendation
         </Title>
         <div className='mb-6'>
         <Space direction='vertical' className='w-full'>
           <Input placeholder='Pet Type' value={petData.petType} onChange={e => handleChange('petType', e.target.value)}/>
+          <Input placeholder='Pet Age' value={petData.petAge} onChange={e => handleChange('petAge', e.target.value)}/>
           <Input placeholder='Diet Preferences' value={petData.petDietPreferences} onChange={e => handleChange('petDietPreferences', e.target.value)}/>
           <TextArea rows={2} placeholder='Health Concerns' value={petData.petHealthConcerns} onChange={e => handleChange('petHealthConcerns', e.target.value)}/>
           <Select className='w-full' placeholder='Activity Level' value={petData.activityLevel} onChange={(value) => handleChange('activityLevel', value)} options={activityLevelOptions}/>

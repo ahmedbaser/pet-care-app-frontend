@@ -72,7 +72,7 @@ const HealthAlerts = () => {
     } 
 
 return (
-     <div className='flex items-center justify-center min-h-screen bg-blue-100'>
+     <div className='flex items-center justify-center min-h-screen bg-green-100'>
         <div className='w-full max-w-xl p-8 bg-white rounded-lg shadow-md'>
          <Title level={2} className="text-center text-gray-700 mb-6">
             Pet Health Alerts

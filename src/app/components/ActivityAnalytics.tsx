@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Typography, Input, Select, message, Space, Button } from 'antd';
 import api from '../utils/api';
 
-const Title = Typography;
+const {Title} = Typography;
 const { TextArea } = Input;
 const { Option, OptGroup } = Select;
 
@@ -86,7 +86,7 @@ const ActivityAnalytics = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-green-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <Title className="text-2xl text-center mb-6 text-gray-700">
+        <Title level={2} className="text-2xl text-center mb-6 text-gray-700">
           Pet Activity Analytic
         </Title>
 

@@ -105,9 +105,9 @@ const handleSubmit = async () => {
 
 
 return (
-    <div className='flex items-center justify-center min-h-screen bg-purple-50'>
+    <div className='flex items-center justify-center min-h-screen bg-green-100'>
         <div className='w-full max-w-xl p-8 bg-white rounded-lg shadow-lg'>
-        <Title className='text-center text-gray-700'>Pet Symptom Image Recognition</Title>
+        <Title level={2} className='text-center text-gray-700'>Pet Symptom Image Recognition</Title>
         <div className='mb-6'>
          <Space direction='vertical' className='w-full'>   
           <Input placeholder='Pet Type' value={petData.petType} onChange={e => handleChange('petType', e.target.value)}/>

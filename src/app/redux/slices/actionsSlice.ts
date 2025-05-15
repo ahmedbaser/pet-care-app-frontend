@@ -399,30 +399,30 @@ extraReducers: (builder) => {
         state.error = action.payload as string;
       })
 
-  .addCase(fetchComments.fulfilled, (state, action) => {
-    state.comments = action.payload;
-    console.log("Comments fetched and updated:", state.comments);
-  })
-
-  .addCase(replyComment.fulfilled, (state, action) => {
-    const { parentId, reply } = action.payload;
-    console.log("this is action.payload of replyComment:", action.payload);
-
-    const commentsCopy = [...state.comments];
-    console.log("Comments before update:", commentsCopy);
-
-    const parentComment = commentsCopy.find(comment => comment._id === parentId);
-
-    if (parentComment) {
-      parentComment.replies = parentComment.replies || [];
-      parentComment.replies.push(reply);
-
-      state.comments = commentsCopy;
-      console.log("Updated comments:", state.comments);
-    } else {
-      console.warn("Parent comment not found in state with id:", parentId);
-    }
-  })
+       .addCase(fetchComments.fulfilled, (state, action) => {
+         state.comments = action.payload;
+         console.log("Comments fetched and updated:", state.comments);
+       })
+     
+       .addCase(replyComment.fulfilled, (state, action) => {
+         const { parentId, reply } = action.payload;
+         console.log("this is action.payload of replyComment:", action.payload);
+     
+         const commentsCopy = [...state.comments];
+         console.log("Comments before update:", commentsCopy);
+     
+         const parentComment = commentsCopy.find(comment => comment._id === parentId);
+     
+         if (parentComment) {
+           parentComment.replies = parentComment.replies || [];
+           parentComment.replies.push(reply);
+     
+           state.comments = commentsCopy;
+           console.log("Updated comments:", state.comments);
+         } else {
+           console.warn("Parent comment not found in state with id:", parentId);
+         }
+       })
       .addCase(replyComment.rejected, (state, action) => {
          state.error = action.payload as string;
        })

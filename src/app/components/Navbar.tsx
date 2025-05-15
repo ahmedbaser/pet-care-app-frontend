@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../redux/store';
@@ -17,6 +17,17 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if(!hasMounted) {
+    return null;
+  }
+
 
   // Routes where the navbar is hidden when logged in
   const hiddenRoutes = ['/admin', '/dashboard'];

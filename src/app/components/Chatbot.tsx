@@ -5,6 +5,8 @@ import { Input, Button, Typography, Card, Spin } from 'antd';
 import { SendOutlined, RobotOutlined, UserOutlined } from '@ant-design/icons';
 import api from '@/app/utils/api';
 
+
+
 const { Text } = Typography;
 
 const Chatbot: React.FC = () => {

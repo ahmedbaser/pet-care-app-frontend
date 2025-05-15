@@ -8,6 +8,7 @@ import { Form,  Button, Typography, Modal, message, Select } from 'antd';
 import ImageUploadComponent from './ImageUploadComponent';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { AnyAction } from '@reduxjs/toolkit';
 
 
 
@@ -27,6 +28,16 @@ interface PostFormProps {
   post?: Post;
 
 }
+
+const handleRejectedAction = (actionResult: AnyAction) => {
+    if(actionResult?.meta?.requestStatus === 'rejected') {
+      const errorMessage = 'error' in actionResult && typeof actionResult.error?.message === 'string' 
+      ? actionResult.error.message :  'Failed to perform action.';
+      message.error(errorMessage);
+    }
+};
+ 
+
 
 const PostForm: React.FC<PostFormProps> = ({ post }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -66,6 +77,9 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
    setModerationError(null);
 
   };
+
+
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -109,8 +123,8 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
           imageUrl: '',
           isPremium: false,
         });
-      } else if(actionResult.meta.requestStatus === 'rejected') {
-        message.error(actionResult.error.message || 'Failed to perform action.');
+      } else {
+        handleRejectedAction(actionResult)
       }
     } catch(error) {
       console.error("An unexpected error occurred:", error)
@@ -118,6 +132,7 @@ const PostForm: React.FC<PostFormProps> = ({ post }) => {
     }
 
  };
+        // message.error(actionResult.error.message || 'Failed to perform action.');
   
   const handleUploadSuccess = (imageUrl: string) => {
     setFormData((prevData) => ({ ...prevData, imageUrl }));
